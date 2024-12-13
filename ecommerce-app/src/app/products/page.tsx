@@ -1,5 +1,6 @@
 import axios from "axios";
 import Link from "next/link";
+import Image from "next/image";
 
 type Product = {
   id: string;
@@ -9,7 +10,7 @@ type Product = {
 };
 
 async function fetchProducts(): Promise<Product[]> {
-  const { data } = await axios.get("http://localhost:1337/api/products?populate=*");
+  const { data } = await axios.get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=*`);
 
   return data.data.map((item: any) => ({
     id: item.documentId,
@@ -36,7 +37,11 @@ export default async function ProductsPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {products.map((product) => (
           <div key={product.id} className="border p-4 rounded shadow hover:shadow-lg">
-            <img src={`http://localhost:1337${product.thumbnailUrl}`} alt={product.name} className="w-full h-48 object-cover mb-4" />
+            <Image
+              src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${product.thumbnailUrl}`}
+              alt={product.name}
+              className="w-full h-48 object-cover mb-4"
+            />
             <h2 className="text-xl font-semibold">{product.name}</h2>
             <p className="text-gray-700">{product.description}</p>
             <Link href={`/products/${product.id}`} className="text-blue-500 underline hover:text-blue-700">

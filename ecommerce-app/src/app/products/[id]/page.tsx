@@ -1,16 +1,17 @@
 import axios from "axios";
+import Image from "next/image";
 
 type ProductDetail = {
   name: string;
   description: string;
   price: number;
-  imageUrl: any;
+  imageUrl: string;
   metaTitle: string;
   metaDescription: string;
 };
 
 async function fetchProduct(id: string): Promise<ProductDetail> {
-  const { data } = await axios.get(`http://localhost:1337/api/products/${id}?populate=*`);
+  const { data } = await axios.get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products/${id}?populate=*`);
   const product = data.data;
 
   console.log(product);
@@ -58,7 +59,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-4xl font-bold mb-6">{product.name}</h1>
-      <img src={`http://localhost:1337${product.imageUrl}`} alt={product.name} className="w-full h-64 object-cover mb-4" />
+      <Image src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${product.imageUrl}`} alt={product.name} className="w-full h-64 object-cover mb-4" />
       <p className="text-lg">{product.description}</p>
       <p className="text-xl font-semibold mt-4">Prix: {product.price}€</p>
     </div>
