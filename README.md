@@ -5,6 +5,6 @@
 
 ## Backend Strapi
 
-- Installer les dépendances avec yarn install
-- Démarrer Strapi avec yarn develop
+- Installer les dépendances avec npm install
+- Démarrer Strapi avec npm run develop
 - Créer un fichier .env afin d'y mettre les variables d'environnements
