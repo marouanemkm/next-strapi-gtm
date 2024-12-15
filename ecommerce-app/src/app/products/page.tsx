@@ -5,14 +5,18 @@ import SendTrackingEvent from "@/components/SendTrackingEvent";
 import { ApiProductResponse, Product } from "@/utils/types";
 
 async function fetchProducts(): Promise<Product[]> {
-  const { data } = await axios.get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=*`);
-
-  return data.data.map((item: ApiProductResponse) => ({
-    id: item.documentId,
-    name: item.name,
-    description: item.description[0].children[0].text,
-    thumbnailUrl: item.image[0].formats.thumbnail.url,
-  }));
+  try {
+    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products?populate=*`);
+    return data.data.map((item: ApiProductResponse) => ({
+      id: item.documentId,
+      name: item.name,
+      description: item.description[0]?.children[0]?.text || "Description indisponible",
+      thumbnailUrl: item.image[0]?.formats.thumbnail?.url || "",
+    }));
+  } catch (error) {
+    console.error("Erreur lors de la récupération des produits :", error);
+    return [];
+  }
 }
 
 export default async function ProductsPage() {
