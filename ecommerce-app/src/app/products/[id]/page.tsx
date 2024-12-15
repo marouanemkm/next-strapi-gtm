@@ -39,16 +39,22 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     <div className="container mx-auto p-4">
       <SendTrackingEvent event="page_view" value={{ page_name: "Détail Produit", page_path: `/products/${id}` }} />
       <SendTrackingEvent event="product_view" value={{ product_name: product.name, product_id: id, product_price: product.price || null }} />
-      <h1 className="text-4xl font-bold mb-6">{product.name}</h1>
-      <Image
-        src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${product.imageUrl}`}
-        alt={product.name}
-        className="w-full h-64 object-cover mb-4"
-        width={500}
-        height={100}
-      />
-      <p className="text-lg">{product.description}</p>
-      {product.price && <p className="text-xl font-semibold mt-4">Prix: {product.price}€</p>}
+
+      <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center">{product.name}</h1>
+
+      <div className="flex justify-center mb-4">
+        <Image
+          src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${product.imageUrl}`}
+          alt={product.name}
+          className="w-full sm:w-3/4 lg:w-1/2 h-auto object-cover rounded-lg"
+          width={500}
+          height={500}
+        />
+      </div>
+
+      <p className="text-lg sm:text-xl mb-4 text-center">{product.description}</p>
+
+      {product.price && <p className="text-xl font-semibold mt-4 text-center">Prix: {product.price}€</p>}
     </div>
   );
 }
